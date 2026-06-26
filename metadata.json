@@ -1,0 +1,8 @@
+{
+  "name": "Remix: Dra. Joyce Radis - Medicina \u0026 Perícia",
+  "description": "Plataforma médica de luxo e consultoria pericial da Dra. Joyce Radis, integrada com Google Calendar e Google Drive Cabinet.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

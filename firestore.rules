@@ -1,0 +1,79 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // 1. Global Safety Net (default-deny catch-all)
+    match /{document=**} {
+      allow read, write: if false;
+    }
+    
+    // Core helpers
+    function isSignedIn() {
+      return request.auth != null;
+    }
+    
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+    
+    function isValidId(id) {
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+    
+    function incoming() {
+      return request.resource.data;
+    }
+    
+    function existing() {
+      return resource.data;
+    }
+
+    // 2. Appointments collection
+    match /appointments/{appointmentId} {
+      allow read: if isSignedIn() && (
+        resource.data.patientEmail == request.auth.token.email || 
+        resource.data.userId == request.auth.uid
+      );
+      
+      allow create: if isSignedIn() && 
+        incoming().patientEmail == request.auth.token.email &&
+        incoming().status == 'confirmed' &&
+        incoming().patientName is string &&
+        incoming().dateTime is string;
+        
+      allow update: if isSignedIn() && 
+        (existing().patientEmail == request.auth.token.email || existing().userId == request.auth.uid) &&
+        incoming().diff(existing()).affectedKeys().hasOnly(['status', 'notes']);
+        
+      allow delete: if isSignedIn() && (
+        existing().patientEmail == request.auth.token.email || 
+        existing().userId == request.auth.uid
+      );
+    }
+    
+    // 3. Forensic Simulations collection
+    match /forensicSimulations/{simulationId} {
+      allow read: if isSignedIn() && (
+        resource.data.userId == request.auth.uid || 
+        resource.data.userEmail == request.auth.token.email
+      );
+      
+      allow create: if isSignedIn() && 
+        incoming().userId == request.auth.uid &&
+        incoming().clientName is string &&
+        incoming().caseNumber is string;
+        
+      allow update: if isSignedIn() && 
+        existing().userId == request.auth.uid &&
+        incoming().diff(existing()).affectedKeys().hasOnly(['notes', 'finalIncapacityPct', 'injuries', 'rehabilitationRequired']);
+        
+      allow delete: if isSignedIn() && 
+        existing().userId == request.auth.uid;
+    }
+
+    // 4. Patient Profiles & Preferences collection under strict HIPAA/LGPD standards
+    match /profiles/{userId} {
+      allow read, write: if isSignedIn() && isOwner(userId);
+    }
+  }
+}

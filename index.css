@@ -1,0 +1,241 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500&family=Montserrat:wght@200;300;400;500;600&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Montserrat", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Cormorant Garamond", ui-serif, Georgia, serif;
+}
+
+body {
+  font-family: "Montserrat", sans-serif;
+  background: #ffffff;
+  color: #111111;
+  min-height: 100vh;
+}
+
+html.dark body {
+  background: #000000 !important;
+  color: #F8F8F8 !important;
+}
+
+/* Glassmorphism Styling */
+.glass-header {
+  background: rgba(250, 250, 250, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+}
+
+html.dark .glass-header {
+  background: rgba(10, 10, 10, 0.85);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.glass-dashboard {
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+/* Custom badges & pills */
+.badge-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  color: white;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  backdrop-filter: blur(8px);
+  transition: all 0.25s ease;
+}
+.badge-pill:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-1px);
+}
+
+/* Dynamic Diagrams Flow Card */
+.flow-card {
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  cursor: pointer;
+  border-radius: 16px;
+}
+.flow-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px -5px rgba(59, 47, 155, 0.08);
+}
+
+.flow-li {
+  padding-left: 14px;
+  position: relative;
+}
+.flow-li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 7px;
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+}
+
+.flow-in::before { background: var(--agir-blue); }
+.flow-stay::before { background: var(--muted); }
+.flow-up::before { background: var(--alert); }
+.flow-no::before { background: var(--risk); }
+
+/* Central Node Pulses */
+.central-pulse {
+  background: linear-gradient(135deg, #3B2F9B 0%, #1EA7E8 100%);
+  animation: pulse 3.5s ease-in-out infinite;
+  box-shadow:
+    0 0 0 10px rgba(30,167,232,0.12),
+    0 0 0 20px rgba(59,47,155,0.06),
+    0 16px 40px rgba(59,47,155,0.2);
+}
+
+@keyframes pulse {
+  0%, 100% {
+    box-shadow:
+      0 0 0 10px rgba(30,167,232,0.12),
+      0 0 0 20px rgba(59,47,155,0.06),
+      0 16px 40px rgba(59,47,155,0.18);
+  }
+  50% {
+    box-shadow:
+      0 0 0 14px rgba(30,167,232,0.18),
+      0 0 0 26px rgba(59,47,155,0.10),
+      0 20px 48px rgba(59,47,155,0.28);
+  }
+}
+
+.core-bg {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 12% 18%, rgba(30,167,232,0.06), transparent 22%),
+    radial-gradient(circle at 86% 20%, rgba(59,47,155,0.05), transparent 22%);
+  pointer-events: none;
+}
+
+/* Quick checklist box rules */
+.rule-box {
+  background: white;
+  border: 1px solid #e9eff8;
+  border-radius: 14px;
+  padding: 16px;
+  font-size: 13px;
+  line-height: 1.55;
+  box-shadow: 0 4px 15px rgba(25, 33, 52, 0.02);
+  transition: all 0.25s ease;
+}
+.rule-box:hover {
+  transform: translateY(-2px);
+  border-color: #d8e5f5;
+  box-shadow: 0 8px 20px rgba(25, 33, 52, 0.05);
+}
+
+.rule-box strong {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.mvp-card {
+  background: linear-gradient(135deg, #3B2F9B, #2B2378);
+  box-shadow: 0 20px 40px rgba(43,35,120,0.15);
+}
+
+.mvp-item {
+  padding: 12px;
+  border-radius: 12px;
+  font-size: 12.5px;
+  line-height: 1.5;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.10);
+  transition: all 0.2s ease;
+}
+.mvp-item:hover {
+  background: rgba(255,255,255,0.12);
+  transform: translateX(2px);
+}
+
+.glass-metric {
+  background: rgba(255,255,255,0.65);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.4);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  cursor: pointer;
+  border-radius: 14px;
+  overflow: hidden;
+}
+.glass-metric:hover {
+  transform: translateX(4px);
+  background: rgba(255,255,255,0.9);
+  box-shadow: 0 8px 24px rgba(25, 33, 52, 0.06);
+}
+
+/* Arrow dashes indicator animation */
+.arrow-path {
+  stroke-dasharray: 8 4;
+  animation: dash-animation 1.5s linear infinite;
+}
+@keyframes dash-animation {
+  to { stroke-dashoffset: -12; }
+}
+
+/* Base print rules */
+@media print {
+  body {
+    background: white !important;
+    color: black !important;
+  }
+  .glass-header, .glass-dashboard {
+    background: white !important;
+    backdrop-filter: none !important;
+    border: 1px solid #ccc !important;
+    color: black !important;
+  }
+}
+
+/* Dark Mode Extensions for Custom Classes */
+html.dark .glass-dashboard {
+  background: rgba(28, 25, 23, 0.8) !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+html.dark .rule-box {
+  background: #1c1917 !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3) !important;
+}
+html.dark .rule-box:hover {
+  border-color: #B5A475 !important;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4) !important;
+}
+
+html.dark .glass-metric {
+  background: rgba(41, 37, 36, 0.6) !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
+}
+html.dark .glass-metric:hover {
+  background: rgba(41, 37, 36, 0.85) !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4) !important;
+}
+
+html.dark .mvp-item {
+  background: rgba(255, 255, 255, 0.04) !important;
+  border-color: rgba(255, 255, 255, 0.05) !important;
+}
+html.dark .mvp-item:hover {
+  background: rgba(255, 255, 255, 0.08) !important;
+}
+

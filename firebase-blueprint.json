@@ -1,0 +1,64 @@
+{
+  "entities": {
+    "Appointment": {
+      "title": "Appointment",
+      "description": "Uma consulta médica na clínica ou de assistência técnica pericial.",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string", "description": "Título da consulta" },
+        "dateTime": { "type": "string", "format": "date-time", "description": "Reserva de data e horário" },
+        "patientName": { "type": "string", "description": "Nome do paciente ou advogado" },
+        "patientEmail": { "type": "string", "format": "email", "description": "E-mail de correspondência do solicitante" },
+        "type": { "type": "string", "enum": ["Clinical", "Wellness", "ForensicRegular", "AttorneyAssist"], "description": "Tipo de assistência ou consulta" },
+        "status": { "type": "string", "enum": ["confirmed", "pending", "cancelled"], "description": "Situação do agendamento" },
+        "notes": { "type": "string", "description": "Observações complementares" },
+        "googleEventId": { "type": "string", "description": "ID do evento gerado no Google Calendar" }
+      },
+      "required": ["title", "dateTime", "patientName", "patientEmail", "type", "status"]
+    },
+    "ForensicSimulation": {
+      "title": "ForensicSimulation",
+      "description": "Relatório preliminar de avaliação de dano corporal realizado por advogado ou médico perito.",
+      "type": "object",
+      "properties": {
+        "clientName": { "type": "string", "description": "Nome da vítima ou examinado" },
+        "caseNumber": { "type": "string", "description": "Número do processo judicial" },
+        "expertName": { "type": "string", "description": "Nome do assistente técnico ou advogado" },
+        "notes": { "type": "string", "description": "Observações periciais" },
+        "rehabilitationRequired": { "type": "boolean", "description": "Se necessita de reabilitação profissional" },
+        "finalIncapacityPct": { "type": "number", "description": "Percentual final estimado de incapacidade funcional (TNI)" }
+      },
+      "required": ["clientName", "caseNumber", "finalIncapacityPct"]
+    },
+    "PatientProfile": {
+      "title": "PatientProfile",
+      "description": "Preferências de perfil e ficha médica/jurídica complementar do paciente de medicina integrativa e perito parceiro.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "description": "ID exclusivo de registro credenciado" },
+        "email": { "type": "string", "description": "Endereço eletrônico Gmail" },
+        "fullName": { "type": "string", "description": "Nome completo do titular" },
+        "phone": { "type": "string", "description": "Contato telefônico ou WhatsApp" },
+        "primaryArea": { "type": "string", "enum": ["Clinica", "Juridico", "Ambos"] },
+        "preferredContactMethod": { "type": "string", "enum": ["email", "whatsapp", "phone"] },
+        "notificationsEnabled": { "type": "boolean" },
+        "medicalHistoryNotes": { "type": "string" }
+      },
+      "required": ["userId", "email", "fullName"]
+    }
+  },
+  "firestore": {
+    "/appointments/{appointmentId}": {
+      "schema": "Appointment",
+      "description": "Agendamentos de consultas médicas e perícias."
+    },
+    "/forensicSimulations/{simulationId}": {
+      "schema": "ForensicSimulation",
+      "description": "Simulações e relatórios periciais de dano corporal."
+    },
+    "/profiles/{userId}": {
+      "schema": "PatientProfile",
+      "description": "Dados de cadastro secundário e preferências clínicas/forenses de pacientes sob sigilo."
+    }
+  }
+}
